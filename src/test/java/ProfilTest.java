@@ -2,7 +2,6 @@ import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.ValidatableResponse;
 import mod.CreateUser;
 import mod.LoginUser;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -12,9 +11,7 @@ import org.junit.runners.Parameterized;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import pages.LoginPage;
-import pages.MainPage;
 import pages.ProfilePage;
 import utils.UserClient;
 import utils.UserGenerator;
@@ -26,11 +23,6 @@ public class ProfilTest {
     private String token = "";
     private LoginUser loginData;
     private CreateUser createData;
-    private String email;
-    private String password;
-    private int statusCode;
-    private boolean isRegistered;
-    private static String shouldBurgerTitle = "Соберите бургер";
     private WebDriver driver;
     private String driverType;
 
@@ -59,8 +51,6 @@ public class ProfilTest {
         createData = UserGenerator.getDefaultRegistrationData();
         ValidatableResponse responseRegister = UserClient.createUser(createData);
         token = responseRegister.extract().path("accessToken");
-        statusCode = responseRegister.extract().statusCode();
-        isRegistered = responseRegister.extract().path("success");
         loginData = UserGenerator.getDefaultLoginData();
     }
 
@@ -121,7 +111,8 @@ public class ProfilTest {
 
     @After
     public void tearDown(){
-        ValidatableResponse responseDelete = UserClient.deleteUser(token);
+        if (token != null)
+            UserClient.deleteUser(token);
         driver.quit();
     }
 }

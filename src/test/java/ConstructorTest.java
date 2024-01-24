@@ -22,7 +22,6 @@ public class ConstructorTest {
                 "src\\main\\resources\\drivers\\" + this.driverType
         );
         ChromeOptions options = new ChromeOptions();
-        // options.addArguments("start-maximized");
         driver = new ChromeDriver(options);
         driver.get("https://stellarburgers.nomoreparties.site");
     }
@@ -43,8 +42,8 @@ public class ConstructorTest {
         MainPage mainPage = new MainPage(driver);
         mainPage.clickButtonFillings();
         mainPage.clickButtonBun();
-        String actualResult = mainPage.getTabBuns();
-        Assert.assertEquals("Булки", actualResult);
+        mainPage.shouldBunTab();
+
     }
 
     @Test
@@ -53,16 +52,16 @@ public class ConstructorTest {
 
         MainPage mainPage = new MainPage(driver);
         mainPage.clickButtonSause();
-        String actualResult=mainPage.getTabSause();
-        Assert.assertEquals("Соусы", actualResult);
+        mainPage.shouldSouseTab();
+
     }
     @Test
     @DisplayName("Переход к разделу Начинки")
     public void checkFillings() {
         MainPage mainPage = new MainPage(driver);
         mainPage.clickButtonFillings();
-        String actualResult=mainPage.getTabFillings();
-        Assert.assertEquals("Начинки", actualResult);
+        mainPage.shouldFillingTab();
+
     }
     @After
     public void tearDown(){

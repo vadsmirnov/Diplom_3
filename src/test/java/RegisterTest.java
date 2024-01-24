@@ -1,9 +1,7 @@
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.ValidatableResponse;
 import mod.LoginUser;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,7 +9,6 @@ import org.junit.runners.Parameterized;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import pages.LoginPage;
 import pages.MainPage;
 import pages.RegistrationPage;
 import utils.UserClient;
@@ -58,7 +55,6 @@ public class RegisterTest {
         MainPage mainPage = new MainPage(driver);
         mainPage.clickButtonPersonalAccount();
 
-        //LoginPage objLoginPage = new LoginPage(driver);
 
         RegistrationPage registrationPage=new RegistrationPage(driver);
         registrationPage.clickButtonRegister();
@@ -81,8 +77,6 @@ public class RegisterTest {
         MainPage mainPage = new MainPage(driver);
         mainPage.clickButtonPersonalAccount();
 
-        //LoginPage objLoginPage = new LoginPage(driver);
-
         RegistrationPage registrationPage=new RegistrationPage(driver);
         registrationPage.clickButtonRegister();
 
@@ -95,7 +89,8 @@ public class RegisterTest {
     }
     @After
     public void tearDown(){
-        ValidatableResponse responseDelete = UserClient.deleteUser(token);
+        if (token != null)
+            UserClient.deleteUser(token);
         driver.quit();
     }
 

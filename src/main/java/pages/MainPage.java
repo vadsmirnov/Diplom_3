@@ -1,4 +1,5 @@
 package pages;
+import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
@@ -8,11 +9,11 @@ public class MainPage {
     private By bunTab = By.xpath("//span[text()='Булки']");
     private By sauseTab = By.xpath("//span[text()='Соусы']");
     private By fillingTab = By.xpath("//span[text()='Начинки']");
-    //private By buttonConstructor = By.xpath(".//p[contains(text(),'Конструктор')]");
     private By buttonPersonalAccount = By.xpath("//p[text()='Личный Кабинет']");
-    //private By buttonLogin = By.xpath(".//button[contains(text(),'Войти в аккаунт')]");
-
     private By mainClass = By.xpath(".//main[@class='App_componentContainer__2JC2W']");
+    private final By souseText = By.xpath("//div[span[text()='Соусы']]");
+    private final By bunText = By.xpath("//div[span[text()='Булки']]");
+    private final By fillingText = By.xpath("//div[span[text()='Начинки']]");
 
     public MainPage(WebDriver driver) {
         this.driver = driver;
@@ -29,10 +30,6 @@ public class MainPage {
     public void clickButtonPersonalAccount() {
         driver.findElement(buttonPersonalAccount).click();
     }
-//    public void clickButtonLogin() {
-//        driver.findElement(buttonLogin).click();
-//    }
-
     public boolean isDisplayedHeadPage() {
         return driver.findElement(mainClass).isDisplayed();
     }
@@ -44,5 +41,15 @@ public class MainPage {
     }
     public String getTabFillings() {
         return driver.findElement(fillingTab).getText();
+    }
+
+    public void shouldSouseTab() {
+        Assert.assertTrue(driver.findElement(souseText).getAttribute("class").contains("current"));
+    }
+    public void shouldBunTab() {
+        Assert.assertTrue(driver.findElement(bunText).getAttribute("class").contains("current"));
+    }
+    public void shouldFillingTab() {
+        Assert.assertTrue(driver.findElement(fillingText).getAttribute("class").contains("current"));
     }
 }

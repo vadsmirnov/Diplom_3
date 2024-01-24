@@ -26,8 +26,6 @@ public class AuthTest {
     private String token = "";
     private LoginUser loginData;
     private CreateUser createData;
-    private int statusCode;
-    private boolean isRegistered;
 
     public AuthTest(String driverType){
         this.driverType = driverType;
@@ -55,8 +53,6 @@ public class AuthTest {
         createData = UserGenerator.getDefaultRegistrationData();
         ValidatableResponse responseRegister = UserClient.createUser(createData);
         token = responseRegister.extract().path("accessToken");
-        statusCode = responseRegister.extract().statusCode();
-        isRegistered = responseRegister.extract().path("success");
         loginData = UserGenerator.getDefaultLoginData();
     }
 
@@ -64,8 +60,6 @@ public class AuthTest {
     @Test
     @DisplayName("Авторизация через кнопку на главном экране")
     public void authMainButtonTest() {
-        //MainPage mainPage = new MainPage(driver);
-
         LoginPage loginPage = new LoginPage(driver);
         loginPage.clickLoginOrderButton();
 
@@ -98,9 +92,6 @@ public class AuthTest {
     @Test
     @DisplayName("Вход через кнопку в форме регистрации")
     public void authRegistrationPage(){
-        //MainPage mainPage = new MainPage(driver);
-        //mainPage.clickButtonLogin();
-
         LoginPage loginPage = new LoginPage(driver);
         loginPage.clickLoginOrderButton();
         loginPage.clickButtonRegister();
@@ -118,8 +109,6 @@ public class AuthTest {
     @Test
     @DisplayName("Авторизация через кнопку в форме восстановления пароля")
     public void authForgotPasswordPage(){
-//        MainPage objHeadPage = new MainPage(driver);
-//        objHeadPage.clickButtonLogin();
         LoginPage loginPage = new LoginPage(driver);
         loginPage.clickLoginOrderButton();
         loginPage.clickButtonRecoverPassword();
@@ -140,7 +129,8 @@ public class AuthTest {
 
     @After
     public void tearDown(){
-        ValidatableResponse responseDelete = UserClient.deleteUser(token);
+        if (token != null)
+            UserClient.deleteUser(token);
         driver.quit();
     }
 }
